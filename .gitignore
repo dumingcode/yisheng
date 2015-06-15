@@ -1,0 +1,9 @@
+<<<<<<< HEAD
+fuel/app/logs/*/*/*
+fuel/app/cache/*/*
+smarty/cache/
+smarty/templates_c
+=======
+smarty/cache/
+smarty/templates_c/
+>>>>>>> 0b71d76f7e16cae78dfaa21b9b4f2d55b98f7e9d
