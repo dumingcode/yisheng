@@ -28,3 +28,28 @@ $('#btn_submit').bind('click', function(){
         });
       }); 
 }
+
+//渠道展示页面删除按钮js触发函数
+function showChannelInit(){
+	$('.delChannel').bind('click', function(){
+		     var channelId = $(this).attr("rel");	
+			 var postdata='channelId='+channelId;
+	        $.ajax({
+	            type:'post',
+	            url:'../yisheng/delChannel.php',
+	            data:postdata,
+	            dataType:'text',
+	            cache: false,
+	            error: function() {
+	           	 alert('error'); 
+	            },
+	            success: function(json) {
+	   	            if(json=='1'){
+	   	            	location.reload();	   	            	 	
+	   	            }else{
+	   	            	$('#tip').html('<label><font color="#FF0000">渠道删除失败</font></label>');	   	            	
+	   	            }	   	            
+	            }
+	        });
+	      }); 
+	}

@@ -29,55 +29,50 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	pageInit();
+	showChannelInit();
 });
 </script>
   
   </head>
 
   <body>
-
+     
     <div class="container">
-
-      <div id="yisheng_add" class="form-signin" role="form">
+    <center><h2 class="lead">怡生--渠道列表</h2></center>
       
-      <div class="form-group">
-        <label class="col-sm-4 control-label"></label>
-        <h2 class="form-signin-heading">怡生--添加渠道</h2>    
-       </div>
+      <table class="table  table-condensed table-bordered display">
+        <thead>
+         <tr>
+             <td><label class="control-label">渠道名称</label></td>
+             <td><label class="control-label">卡券名称</label></td>
+             <td><label class="control-label">卡券ID</label></td>
+             <td><label class="control-label">链接</label></td>
+             <td><label class="control-label">操作</label></td>
+         </tr>
+        </thead>
+        <tbody>
+      		{foreach name=outer item=channel from=$channels}  
+				<tr>
+				   <td>{$channel.channel_name}</td>
+				   <td>{$channel.coupon_id}</td>
+				  <td>{$channel.coupon_name}</td>
+				  <td></td>
+				  <td>
+				     <a class="delChannel" href="#" rel="{$channel.channel_id}">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				     <a href="#">编辑</a></td>
+				</tr>   
+                      
+            {/foreach}
+        </tbody>
+       </table>
        
-       <div class="form-group">
-          <label class="col-xs-4 control-label">渠道名称</label>
-          <input id="channel" name="channel"  class="form-control" required>  
-       </div> 
- 
-       <div class="form-group">
-          <label class="col-xs-4 control-label">卡券名称</label>
-          <input id="couponname" name="couponname" class="form-control"  required>
-       </div>
-
-       <div class="form-group">       
-          <label class="col-xs-4 control-label">卡券ID</label>
-          <input id="couponid" name="couponid"  class="form-control" required>         
-       </div> 
-       
-        
-         
- 
-          <div class="form-group"> 
-              <label class="col-xs-4 control-label">操作</label>
-              <button type="submit" id="btn_submit" class="btn  btn-primary btn-block">添加渠道</button>    
-         </div>
-         
-        <div id="tip"></div>
-       </div>
-
+       <div id="tip"></div>
     </div> <!-- /container -->
 
    <div class="content container_12" >
        <div id="footer">
           <center> 
-            <a href="showChannel.php"><strong>显示渠道列表</strong></a><label></label>        
+            <a href="admin.html"><strong>添加渠道页面</strong></a><label></label>        
           </center>
       </div>
      

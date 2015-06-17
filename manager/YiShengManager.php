@@ -13,7 +13,7 @@ class YiShengManager{
 	}
 	
    /**
-	 * ��������ӵ�������Ϣ����������Ϣ��
+	 * 插入新增的渠道信息
 	 * Enter description here ...
 	 */
 	public function insertChannelInfo($arr){		
@@ -23,7 +23,7 @@ class YiShengManager{
 		           'channel_name' =>$arr['channel'],
                    'coupon_id'     => $arr['couponId'],
 		           'coupon_name'   => $arr['couponName'],
-		           'isvalid'  => 1,
+		           'isvalid'  => YS_IS_VALID,
                    'insertdate' => $now,
                    'updatedate' => $now
 		      ));	
@@ -31,8 +31,8 @@ class YiShengManager{
 		}
 		catch (Exception $e) {
 			//�����쳣��ɾ��redis�����еĶ�Ӧ���
-			$errorNum = $this->$STO->getErrorNum();
-			$_retMsg = $this->$STO->getErrorInfo().$e->getMessage();
+			$errorNum = $this->STO->getErrorNum();
+			$_retMsg = $this->STO->getErrorInfo().$e->getMessage();
 			$_retValue = genRetCode($errorNum);
 			interface_log(ERROR, $retValue, $retMsg);
 			return false;
@@ -45,32 +45,20 @@ class YiShengManager{
 	
 	
 	/**
-	 * ��ѯ�û�������Ч���Ż�ȯ
+	 * 返回有效的渠道信息
 	 * Enter description here ...
 	 */
-	public function queryMyCoupon($arr){
-		$data=array();
-		try {			
-			$storeWxId = $arr['storeWxId'];
-			$username = $arr['username'];	
-				
-			$now=date("Y-m-d H:i:s");
-			
+	public function queryChannelInfo(){
+		try {							
 			$data = $this->STO->getObject(
-			array ("_field"=>"id,username,storename,money,couponname,coupontype,left(validdate,10) as validdate",
-			"_where" => " storename='" . $storeWxId .
-		           "' and username='" . $username . 
-		           "' and isvalid='" . 1 .
-			       "' and validdate>='" . $now .
-		           "' and useddate is  null" .
-		           ""));
+			array ("_field"=>"channel_id,channel_name,coupon_id,coupon_name",
+			"_where" => 'isvalid=' . YS_IS_VALID));
 				
 		
 		}
 		catch (Exception $e) {
-			//�����쳣��ɾ��redis�����еĶ�Ӧ���
-			$errorNum = $this->$STO->getErrorNum();
-			$_retMsg = $this->$STO->getErrorInfo().$e->getMessage();
+			$errorNum = $this->STO->getErrorNum();
+			$_retMsg = $this->STO->getErrorInfo().$e->getMessage();
 			$_retValue = genRetCode($errorNum);
 			interface_log(ERROR, $retValue, $retMsg);
 			return $data;
@@ -83,28 +71,21 @@ class YiShengManager{
 	
 
 	/**
-	 * ���Ż�ȯʹ����� ���дwx_usercoupon��ݱ�
+	 * 删除渠道信息 实质上是将isvalid 由1变为0
 	 * Enter description here ...
 	 */
-	public function updateConsumedCoupon(&$arr){
+	public function delChannelInfo(&$arr){
 		try {			
-			$storeWxId = $arr['storeWxId'];
-			$username = $arr['username'];	
-			$code = $arr['code'];
-			$couponId = $arr['couponId'];	
-				
-			$now=date("Y-m-d H:i:s");
-			
+			$channelId = $arr['channelId'];
+			$now=date("Y-m-d H:i:s");			
 			$updateOk = $this->STO->updateObject(
 			  array(
-			        "activecode"=>$code,
-			        "isvalid"=>CODE_USED,
-			        "useddate"=>$now,
+			        "isvalid"=>YS_NOT_VALID,
 			        "updatedate"=>$now
 			        ),
 			  array(
-			        "id"=>$couponId,
-			        "isvalid"=>CODE_NOT_USED
+			        "channel_id"=>$channelId,
+			        "isvalid"=>YS_IS_VALID
 			        )
 			);
 				
@@ -112,8 +93,8 @@ class YiShengManager{
 		}
 		catch (Exception $e) {
 			//�����쳣��ɾ��redis�����еĶ�Ӧ���
-			$errorNum = $this->$STO->getErrorNum();
-			$_retMsg = $this->$STO->getErrorInfo().$e->getMessage();
+			$errorNum = $this->STO->getErrorNum();
+			$_retMsg = $this->STO->getErrorInfo().$e->getMessage();
 			$_retValue = genRetCode($errorNum);
 			interface_log(ERROR, $retValue, $retMsg);
 			return false;

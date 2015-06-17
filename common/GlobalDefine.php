@@ -203,7 +203,7 @@ $GLOBALS['DB'] = array(
 		'HOST' => 'localhost',
 		'DBNAME' => 'yisheng',
 		'USER' => 'root',
-		'PASSWD' => 'root',
+		'PASSWD' => 'piccsk1234',
 		'PORT' => 3306 
 	),
 	'MR' => array(
@@ -311,9 +311,14 @@ define('CODE_USED',0);
 define('CODE_NOT_USED',1);
 
 
+/**
+ * 怡生制暖
+ */
 
 
-
+//怡生激活码是否已经使用
+define('YS_IS_VALID',1);
+define('YS_NOT_VALID',0);
 
 
 ?>
